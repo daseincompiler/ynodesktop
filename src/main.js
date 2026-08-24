@@ -14,14 +14,17 @@ const { checkForUpdates } = require('./scripts/updateChecker');
 // that is incompatible with the Wayland ozone platform, and its GTK4 renderer
 // paints white on many Arch-based distros (CachyOS in particular). Both fail
 // modes cascade into the network service crashing and a permanent white
-// screen. Let Ozone auto-pick the platform, disable the Vulkan backend, and
-// force GTK3 so the renderer paints. Must run before app is ready. Sandbox
-// stays enabled — no --no-sandbox needed.
-// See: electron/electron#33690 (GTK4), electron/electron#43400 (net service).
+// screen. Let Ozone auto-pick the platform, disable the Vulkan backend, force
+// GTK3, and drop the GPU-process sandbox (the zygote GPU child in AppImage
+// squashfs mounts doesn't inherit Wayland flags, which cascades into the net
+// service dying ~20s after launch). Must run before app is ready. Renderer
+// sandbox stays on — this only opens the GPU process.
+// See: electron/electron#33690 (GTK4), electron/electron#50462 (GPU zygote).
 if (process.platform === 'linux') {
   app.commandLine.appendSwitch('ozone-platform-hint', 'auto');
   app.commandLine.appendSwitch('disable-features', 'Vulkan');
   app.commandLine.appendSwitch('gtk-version', '3');
+  app.commandLine.appendSwitch('disable-gpu-sandbox');
 }
 
 let rpcInterval = null;
