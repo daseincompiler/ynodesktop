@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/affectioned/ynodesktop/compare/v1.3.1...v1.3.2) (2026-08-27)
+
+
+### Bug Fixes
+
+* use ozone-platform-hint=auto to fix Linux white screen ([#44](https://github.com/affectioned/ynodesktop/issues/44)) ([658c119](https://github.com/affectioned/ynodesktop/commit/658c1197f8cee79236ea9dbc0242dc464aaed151))
+
 ## [1.3.1](https://github.com/affectioned/ynodesktop/compare/v1.3.0...v1.3.1) (2026-08-11)
 
 
